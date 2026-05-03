@@ -10,8 +10,6 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     zip \
     unzip \
-    nodejs \
-    npm
 
 # Καθαρισμός cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -36,10 +34,6 @@ COPY . .
 
 # Δικαιώματα φακέλων για Laravel
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-
-# Build του frontend (Vue)
-RUN npm install
-RUN npm run build
 
 # Build των PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
