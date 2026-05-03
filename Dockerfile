@@ -44,4 +44,7 @@ RUN npm run build
 # Build των PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
+# Δημιουργία του storage symlink
+RUN php artisan storage:link
+
 EXPOSE 80
