@@ -1,43 +1,87 @@
-# Χρησιμοποιούμε PHP image με Apache
+# -------------------------
+# Base image
+# -------------------------
 FROM php:8.2-apache
 
-# Εγκατάσταση απαραίτητων εργαλείων και βιβλιοθηκών του Linux
+# -------------------------
+# System dependencies
+# -------------------------
 RUN apt-get update && apt-get install -y \
     git \
     curl \
+    unzip \
+    zip \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
     libzip-dev \
-    zip \
-    unzip \
+    zlib1g-dev \
+    libicu-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Εγκατάσταση PHP extensions για Laravel και Composer
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
+# -------------------------
+# PHP extensions
+# -------------------------
+RUN docker-php-ext-install \
+    pdo_mysql \
+    mbstring \
+    exif \
+    pcntl \
+    bcmath \
+    gd \
+    zip \
+    intl
 
-# Ενεργοποίηση mod_rewrite του Apache
+# -------------------------
+# Apache config
+# -------------------------
 RUN a2enmod rewrite
 
-# Αλλαγή του Document Root του Apache στο /public της Laravel
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-# Εγκατάσταση Composer
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
+    /etc/apache2/sites-available/*.conf
+
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
+    /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
+# -------------------------
+# Composer
+# -------------------------
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Αντιγραφή των αρχείων του project μέσα στο container
+# -------------------------
+# App files
+# -------------------------
 WORKDIR /var/www/html
 COPY . .
 
-# Δικαιώματα φακέλων για Laravel
+# -------------------------
+# Permissions
+# -------------------------
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Build των PHP dependencies χωρίς να κολλάει σε scripts
-RUN composer install --no-dev --optimize-autoloader --no-scripts
+# -------------------------
+# Install PHP dependencies
+# -------------------------
+RUN COMPOSER_MEMORY_LIMIT=-1 composer install \
+    --no-dev \
+    --optimize-autoloader \
+    --no-interaction \
+    --prefer-dist
 
-# Δημιουργία του storage symlink
-RUN php artisan storage:link
+# -------------------------
+# IMPORTANT:
+# Don't run artisan storage:link here on Render build
+# (run it in runtime/start command if needed)
+# -------------------------
 
+# -------------------------
+# Expose Apache port
+# -------------------------
 EXPOSE 80
+
+# -------------------------
+# Start Apache
+# -------------------------
+CMD ["apache2-foreground"]
