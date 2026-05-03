@@ -76,6 +76,8 @@ RUN COMPOSER_MEMORY_LIMIT=-1 composer install \
 # (run it in runtime/start command if needed)
 # -------------------------
 
+RUN php artisan migrate --force
+
 # -------------------------
 # Expose Apache port
 # -------------------------
