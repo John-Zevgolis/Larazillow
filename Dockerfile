@@ -1,19 +1,20 @@
 # Χρησιμοποιούμε PHP image με Apache
 FROM php:8.2-apache
 
-# Εγκατάσταση απαραίτητων εργαλείων και PHP extensions
+# Εγκατάσταση απαραίτητων εργαλείων και βιβλιοθηκών του Linux
 RUN apt-get update && apt-get install -y \
     git \
     curl \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
+    libzip-dev \
     zip \
     unzip \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Εγκατάσταση PHP extensions για Laravel
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+# Εγκατάσταση PHP extensions για Laravel και Composer
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
 
 # Ενεργοποίηση mod_rewrite του Apache
 RUN a2enmod rewrite
@@ -33,8 +34,8 @@ COPY . .
 # Δικαιώματα φακέλων για Laravel
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Build των PHP dependencies
-RUN composer install --no-dev --optimize-autoloader
+# Build των PHP dependencies χωρίς να κολλάει σε scripts
+RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 # Δημιουργία του storage symlink
 RUN php artisan storage:link
