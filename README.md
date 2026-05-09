@@ -1,45 +1,65 @@
-# LaraZillow | Full-Stack Real Estate Marketplace
+# 🏠 LaraZillow
 
-[![Laravel](https://img.shields.io/badge/Laravel-11.x-red.svg)](https://laravel.com)
-[![Vue.js](https://img.shields.io/badge/Vue.js-3.x-green.svg)](https://vuejs.org)
-[![Inertia.js](https://img.shields.io/badge/Inertia.js-1.x-purple.svg)](https://inertiajs.com)
-[![TailwindCSS](https://img.shields.io/badge/Tailwind-3.x-blue.svg)](https://tailwindcss.com)
-
-A sophisticated real estate application built to demonstrate **Modern Monolith** architecture. This project showcases the seamless integration of a robust Laravel backend with a reactive Vue 3 frontend using Inertia.js.
+A real estate web application built with Laravel, inspired by Zillow. Users can browse listings, view property details, and interact with a modern UI.
 
 ---
 
-## 🛠 Tech Stack & Architecture
+## 🚀 Installation & Setup
 
-This project was built to showcase Senior-level proficiency in the following technologies:
+### 1. Clone the repository
 
-### Backend (Laravel)
-- **RESTful API Design:** Serving data to Vue components via Inertia.js.
-- **Eloquent ORM:** Advanced relationships (User-Listing ownership).
-- **Security:** Integrated Laravel Sanctum/Fortify for robust authentication.
-- **Database:** Schema migrations, Seeding, and Factories for testing.
-- **Validation:** Complex server-side validation using Form Requests.
+```bash
+git clone https://github.com/John-Zevgolis/LaraZillow.git
+cd LaraZillow
+```
 
-### Frontend (Vue.js)
-- **Composition API:** Clean, reusable logic with Vue 3.
-- **Inertia.js:** Bridging the gap between backend and frontend without the overhead of a dedicated SPA router.
-- **State Management:** Leveraging Inertia's persistent state and reactive props.
-- **Tailwind CSS:** Responsive, mobile-first design with a custom theme.
+### 2. Install Dependencies
+
+```bash
+composer install
+npm install
+```
+
+### 3. Environment Setup
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+### 4. Database Migration & Seeding
+
+```bash
+php artisan migrate --seed
+```
+
+### 5. Run the Application
+
+```bash
+php artisan serve
+npm run dev
+```
 
 ---
 
-## 🚀 Key Features
+## 📋 Requirements
 
-- **Property Lifecycle:** Full CRUD functionality for property listings.
-- **Authentication:** Secure user registration, login, and profile management.
-- **Advanced Filtering:** Server-side filtering for price, beds, and baths.
-- **Image Handling:** Dynamic image uploads and storage management.
-- **User Permissions:** Authorization policies (users can only edit/delete their own listings).
+* PHP >= 8.x
+* Composer
+* Node.js & npm
+* MySQL or SQLite
 
 ---
 
-## 🔧 Installation & Setup
+## ✨ Features
 
-1. **Clone the repo:**
-   ```bash
-   git clone [https://github.com/John-Zevgolis/LaraZillow.git](https://github.com/John-Zevgolis/LaraZillow.git)
+* Property listings
+* Property details page
+* Modern UI with responsive design
+* Database seeding with sample data
+
+---
+
+## 📚 Disclaimer
+
+This project was built as part of a Udemy course for learning purposes.
