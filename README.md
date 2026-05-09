@@ -9,12 +9,6 @@ A sophisticated real estate application built to demonstrate **Modern Monolith**
 
 ---
 
-## 📸 Preview
-*(Add a screenshot here of your main listings page)*
-> **Tip:** You can drag and drop an image into this README editor on GitHub to upload it.
-
----
-
 ## 🛠 Tech Stack & Architecture
 
 This project was built to showcase Senior-level proficiency in the following technologies:
