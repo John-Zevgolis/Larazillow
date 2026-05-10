@@ -13,7 +13,7 @@ class UserAccountController extends Controller
         return inertia('UserAccount/Create');
     }
 
-    public function Store(Request $request) {
+    public function store(Request $request) {
         $user = User::create($request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
