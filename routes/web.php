@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ListingOfferController;
@@ -10,12 +9,12 @@ use App\Http\Controllers\RealtorListingAcceptOfferController;
 use App\Http\Controllers\RealtorListingController;
 use App\Http\Controllers\RealtorListingImageController;
 use App\Http\Controllers\UserAccountController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [IndexController::class, 'index']);
-Route::get('/hello', [IndexController::class, 'show'])->middleware('auth');
+Route::get('/', function(): RedirectResponse {
+    return redirect()->route('listing.index');
+});
 
 Route::resource('listing', ListingController::class)->only(['index', 'show']);
 
